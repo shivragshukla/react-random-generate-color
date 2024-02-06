@@ -1,0 +1,17 @@
+.container {
+	display: flex;
+    flex-direction: column;
+	height: 700px;
+}
+.title, .color {
+	color: #FFF;
+}
+.btn-groups {
+}
+button {
+	padding: 10px 12px;
+}
+.color {
+	margin-top: 7rem;
+	font-size: 25px;
+}

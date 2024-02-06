@@ -1,11 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles.css'
 
 export default function GenerateRandomColor() {
 
 	const [color, setColor] = useState("#000");
+	const [colorType, setColorType] = useState("hex");
 
-	function handleGenerateRandomColor() {
+	useEffect(() => {
+		color.includes('#') ? setColorType('hex') : setColorType('rgb');
+	}, [color])
+
+
+	function handleRandomRGBColor() {
+		const r = createRandomNumber(256);
+		const g = createRandomNumber(256);
+		const b = createRandomNumber(256);
+
+		setColor(`rgb(${r},${g},${b})`);
+	}
+
+	function handleRandomHexColor() {
 		const hex = [...Array(10).keys(), ...['A', 'B', 'C', 'D', 'E', 'F']];
 		const hexColorLength = 6;
 		let hexColor = '#';
@@ -15,6 +29,10 @@ export default function GenerateRandomColor() {
 		}
 
 		setColor(hexColor);
+	}
+
+	function handleGenerateRandomColor() {
+		colorType === 'hex' ? handleRandomHexColor() : handleRandomRGBColor();
 	}
 
 	function createRandomNumber(length) {
@@ -27,14 +45,16 @@ export default function GenerateRandomColor() {
 			style={{
 				backgroundColor: color
 			}}
-
 		>
 			<h1 className="title">Generate random color</h1>
 			<div className="btn-groups">
+				<button onClick={() => handleRandomRGBColor()}>Generate RGB color</button>
+				<button onClick={() => handleRandomHexColor()}>Generate HEX color</button>
 				<button onClick={() => handleGenerateRandomColor()}>Generate random color</button>
 			</div>
 			<div className="color">
-				<h3>{ color }</h3>
+				<h2>{ colorType === 'hex' ? 'Hex Color' : 'RGB Color' } </h2>
+				<p>{ color }</p>
 			</div>
 		</div>
 	);
